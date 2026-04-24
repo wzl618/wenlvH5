@@ -1,6 +1,14 @@
 <template>
   <div class="route-detail">
-    <van-nav-bar :title="routeData.title" left-arrow @click-left="goBack" fixed />
+    <!-- 头部区域 -->
+    <div class="header-section">
+      <button class="back-btn" @click="goBack">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      <h1 class="page-title">{{ routeData.title }}</h1>
+    </div>
 
     <div class="content">
       <!-- 路线概览 -->
@@ -161,6 +169,52 @@ function handleAddTrip() {
   padding-bottom: 80px;
 }
 
+/* 头部区域 */
+.header-section {
+  position: relative;
+  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 50%, #8fb5a8 100%);
+  padding: 16px;
+  padding-top: 16px;
+  padding-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(90, 124, 111, 0.2);
+}
+
+.back-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 247, 237, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid #c67b5c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(198, 123, 92, 0.2);
+  margin-bottom: 12px;
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 247, 237, 1);
+}
+
+.back-btn .icon {
+  width: 24px;
+  height: 24px;
+  color: #2d3e35;
+}
+
+.page-title {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff7ed;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
 .content {
   padding: 16px;
 }
@@ -242,21 +296,6 @@ function handleAddTrip() {
 }
 
 /* 覆盖 Vant 组件样式 */
-:deep(.van-nav-bar) {
-  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 50%, #8fb5a8 100%);
-}
-
-:deep(.van-nav-bar__title) {
-  color: #fff7ed;
-  font-family: 'Noto Serif SC', 'STSong', serif;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-:deep(.van-nav-bar .van-icon) {
-  color: #fff7ed;
-}
-
 :deep(.van-cell-group) {
   background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
   border-radius: 26px;

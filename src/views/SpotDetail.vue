@@ -213,28 +213,30 @@ function handleAddTrip() {
   position: absolute;
   top: 16px;
   left: 16px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 247, 237, 0.25);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 247, 237, 0.95);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 247, 237, 0.3);
+  border: 2px solid #c67b5c;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(198, 123, 92, 0.2);
 }
 
 .back-btn:active {
   transform: scale(0.95);
-  background: rgba(255, 247, 237, 0.35);
+  background: rgba(255, 247, 237, 1);
 }
 
 .back-btn .icon {
   width: 24px;
   height: 24px;
-  color: #fff7ed;
+  color: #2d3e35;
+  stroke-width: 2.5;
 }
 
 /* 内容卡片 - 纸质感 */

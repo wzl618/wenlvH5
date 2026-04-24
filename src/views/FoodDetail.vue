@@ -1,77 +1,90 @@
 <template>
   <div class="food-detail">
-    <van-nav-bar :title="foodData.title" left-arrow @click-left="goBack" fixed />
+    <!-- 头图区域 -->
+    <div class="hero-section" :style="{ background: foodData.bgColor }">
+      <!-- 返回按钮 -->
+      <button class="back-btn" @click="goBack">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+    </div>
 
-    <div class="content">
-      <!-- 美食图片 -->
-      <div class="food-hero" :style="{ background: foodData.bgColor }">
-        <div class="food-image"></div>
+    <!-- 内容卡片 -->
+    <div class="content-card">
+      <!-- 标题和基本信息 -->
+      <div class="header">
+        <h1 class="title">{{ foodData.title }}</h1>
+
+        <div class="meta-row">
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="meta-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>
+            <span>景区周边</span>
+          </div>
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="meta-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+            <span>{{ foodData.feature2 }}</span>
+          </div>
+        </div>
+
+        <!-- 评分和标签 -->
+        <div class="rating-row">
+          <div class="rating">
+            <span class="star">⭐</span>
+            <span class="score">4.7</span>
+            <span class="reviews">856评价</span>
+          </div>
+          <span class="hot-tag">{{ foodData.feature1 }}</span>
+        </div>
       </div>
 
-      <div class="food-desc">
+      <!-- 描述 -->
+      <div class="description">
         <p>{{ foodData.desc }}</p>
       </div>
 
-      <!-- 指标卡片 -->
-      <van-grid :column-num="3" :border="false">
-        <van-grid-item>
-          <div class="metric-item">
-            <div class="metric-value">{{ foodData.feature1 }}</div>
-            <div class="metric-label">{{ foodData.label1 }}</div>
-          </div>
-        </van-grid-item>
-        <van-grid-item>
-          <div class="metric-item">
-            <div class="metric-value">{{ foodData.feature2 }}</div>
-            <div class="metric-label">{{ foodData.label2 }}</div>
-          </div>
-        </van-grid-item>
-        <van-grid-item>
-          <div class="metric-item">
-            <div class="metric-value">{{ foodData.feature3 }}</div>
-            <div class="metric-label">{{ foodData.label3 }}</div>
-          </div>
-        </van-grid-item>
-      </van-grid>
-
-      <!-- 加入行程按钮 -->
-      <div class="action-bar">
-        <PaperButton
-          block
-          :type="isAdded ? 'default' : 'primary'"
-          @click="handleAddTrip"
-        >
-          {{ isAdded ? '已加入，去查看' : '加入我的行程' }}
-        </PaperButton>
+      <!-- 美食特色 -->
+      <div class="section">
+        <h3 class="section-title">美食特色</h3>
+        <div class="highlights">
+          <div class="highlight-item">{{ foodData.feature1 }}</div>
+          <div class="highlight-item">{{ foodData.feature2 }}</div>
+          <div class="highlight-item">{{ foodData.feature3 }}</div>
+        </div>
       </div>
 
       <!-- 推荐理由 -->
-      <van-cell-group inset title="推荐理由">
-        <van-cell>
-          <p class="detail-text">{{ foodData.reason }}</p>
-        </van-cell>
-      </van-cell-group>
+      <div class="section">
+        <h3 class="section-title">推荐理由</h3>
+        <div class="suggestion">
+          <p>{{ foodData.reason }}</p>
+        </div>
+      </div>
 
       <!-- 相关推荐 -->
-      <van-cell-group inset title="相关推荐" v-if="foodData.related.length > 0">
-        <van-cell
-          v-for="item in foodData.related"
-          :key="item.id"
-          :title="item.title"
-          :label="item.desc"
-          is-link
-          @click="goTo(item.path)"
-        />
-      </van-cell-group>
-
-      <!-- 操作按钮 -->
-      <div class="action-buttons">
-        <PaperButton block type="primary" @click="goTo('/food')">
-          查看更多当地美食
-        </PaperButton>
-        <PaperButton block plain @click="goTo('/home')">
-          返回首页
-        </PaperButton>
+      <div class="section" v-if="foodData.related.length > 0">
+        <h3 class="section-title">相关推荐</h3>
+        <div class="related-list">
+          <div
+            v-for="item in foodData.related"
+            :key="item.id"
+            class="related-item"
+            @click="goTo(item.path)"
+          >
+            <div class="related-content">
+              <h4>{{ item.title }}</h4>
+              <p>{{ item.desc }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -189,71 +202,275 @@ function handleAddTrip() {
 
 <style scoped>
 .food-detail {
-  background: var(--color-background);
+  background: #f5f0e8;
   min-height: 100vh;
+  padding-bottom: 24px;
 }
 
-.content {
-  padding-top: 46px;
-  padding-bottom: 16px;
+/* 头图区域 - 中国风渐变 */
+.hero-section {
+  height: 320px;
+  position: relative;
+  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 50%, #8fb5a8 100%);
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 8px 24px rgba(90, 124, 111, 0.2);
 }
 
-.food-hero {
-  height: 200px;
+.back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 247, 237, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid #c67b5c;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(198, 123, 92, 0.2);
 }
 
-.food-image {
-  width: 120px;
-  height: 120px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
+.back-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 247, 237, 1);
 }
 
-.food-desc {
-  padding: var(--space-lg);
-  background: var(--color-card-bg);
+.back-btn .icon {
+  width: 24px;
+  height: 24px;
+  color: #2d3e35;
+  stroke-width: 2.5;
 }
 
-.food-desc p {
-  margin: 0;
-  color: #646566;
-  line-height: 1.7;
+/* 内容卡片 - 纸质感 */
+.content-card {
+  background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
+  border-radius: 32px 32px 0 0;
+  margin: -60px 0 0;
+  padding: 32px 24px;
+  box-shadow: 0 -4px 24px rgba(90, 124, 111, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(90, 124, 111, 0.1);
+  border-bottom: none;
 }
 
-.metric-item {
-  text-align: center;
-  padding: 12px 0;
+/* 装饰性边角 */
+.content-card::before,
+.content-card::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d4a574;
+  opacity: 0.3;
 }
 
-.metric-value {
+.content-card::before {
+  top: 16px;
+  left: 16px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.content-card::after {
+  top: 16px;
+  right: 16px;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* 标题区域 */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #2d3e35;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.meta-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7c72;
   font-size: 14px;
-  font-weight: bold;
-  color: #323233;
-  margin-bottom: 4px;
 }
 
-.metric-label {
-  font-size: 12px;
-  color: #969799;
+.meta-icon {
+  width: 18px;
+  height: 18px;
+  color: #5a7c6f;
 }
 
-.action-bar {
-  padding: 0 16px 16px;
+/* 评分行 */
+.rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.detail-text {
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.star {
+  font-size: 20px;
+}
+
+.score {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3e35;
+}
+
+.reviews {
+  font-size: 14px;
+  color: #6b7c72;
+}
+
+.hot-tag {
+  background: linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%);
+  color: #c67b5c;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid rgba(198, 123, 92, 0.2);
+}
+
+/* 描述 */
+.description {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(90, 124, 111, 0.15);
+}
+
+.description p {
   margin: 0;
-  color: #646566;
-  line-height: 1.7;
+  color: #4a5a51;
+  line-height: 1.8;
+  font-size: 15px;
 }
 
-.action-buttons {
-  padding: var(--space-lg);
+/* 区块 */
+.section {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(90, 124, 111, 0.15);
+}
+
+.section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section-title {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3e35;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+}
+
+/* 亮点 */
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.highlight-item {
+  background: linear-gradient(135deg, #f5f0e8 0%, #ebe5dc 100%);
+  color: #4a5a51;
+  padding: 10px 18px;
+  border-radius: 18px;
+  font-size: 14px;
+  border: 1px solid rgba(90, 124, 111, 0.15);
+  box-shadow: 0 2px 6px rgba(90, 124, 111, 0.08);
+}
+
+/* 建议 */
+.suggestion {
+  background: linear-gradient(135deg, #f5f0e8 0%, #ebe5dc 100%);
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(90, 124, 111, 0.1);
+}
+
+.suggestion p {
+  margin: 0;
+  color: #4a5a51;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+/* 相关推荐列表 */
+.related-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.related-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #f5f0e8 0%, #ebe5dc 100%);
+  border: 1px solid rgba(90, 124, 111, 0.1);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.related-item:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #ebe5dc 0%, #e0d5cc 100%);
+}
+
+.related-content {
+  flex: 1;
+}
+
+.related-content h4 {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3e35;
+  margin: 0 0 6px 0;
+}
+
+.related-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7c72;
+  line-height: 1.5;
+}
+
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  color: #6b7c72;
+  flex-shrink: 0;
 }
 </style>
