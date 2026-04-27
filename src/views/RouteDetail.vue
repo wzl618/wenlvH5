@@ -1,81 +1,114 @@
 <template>
   <div class="route-detail">
-    <!-- 头部区域 -->
-    <div class="header-section">
+    <!-- 头图区域 -->
+    <div class="hero-section">
+      <!-- 返回按钮 -->
       <button class="back-btn" @click="goBack">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
-      <h1 class="page-title">{{ routeData.title }}</h1>
     </div>
 
-    <div class="content">
-      <!-- 路线概览 -->
-      <div class="route-summary">
-        <div class="summary-header">
-          <van-tag type="warning" size="large">{{ routeData.duration }}</van-tag>
-          <van-tag type="success">{{ routeData.tag }}</van-tag>
+    <!-- 内容卡片 -->
+    <div class="content-card">
+      <!-- 标题和基本信息 -->
+      <div class="header">
+        <h1 class="title">{{ routeData.title }}</h1>
+
+        <div class="meta-row">
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="meta-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ routeData.duration }}</span>
+          </div>
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="meta-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>
+            <span>{{ routeData.spots.length }} 个点位</span>
+          </div>
         </div>
-        <p class="summary-desc">{{ routeData.desc }}</p>
+
+        <!-- 标签 -->
+        <div class="rating-row">
+          <span class="hot-tag">{{ routeData.tag }}</span>
+        </div>
+      </div>
+
+      <!-- 描述 -->
+      <div class="description">
+        <p>{{ routeData.desc }}</p>
+      </div>
+
+      <!-- 路线详情 -->
+      <div class="section">
+        <h3 class="section-title">路线详情</h3>
+        <div class="spots-list">
+          <div
+            v-for="(spot, index) in routeData.spots"
+            :key="index"
+            class="spot-item"
+            @click="goTo(`/spot/${spot.id}`)"
+          >
+            <div class="step-num">{{ String(index + 1).padStart(2, '0') }}</div>
+            <div class="spot-content">
+              <h4>{{ spot.title }}</h4>
+              <p>{{ spot.desc }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 路线价值 -->
+      <div class="section">
+        <h3 class="section-title">路线价值</h3>
+        <div class="suggestion">
+          <p>{{ routeData.value }}</p>
+        </div>
+      </div>
+
+      <!-- 推荐景点 -->
+      <div class="section">
+        <h3 class="section-title">推荐景点</h3>
+        <div class="related-list">
+          <div
+            v-for="spot in routeData.recommendSpots"
+            :key="spot.id"
+            class="related-item"
+            @click="goTo(`/spot/${spot.id}`)"
+          >
+            <div class="related-content">
+              <h4>{{ spot.title }}</h4>
+              <p>{{ spot.desc }}</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="arrow-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+        </div>
       </div>
 
       <!-- 加入行程按钮 -->
-      <div class="action-bar">
-        <PaperButton
-          block
-          :type="isAdded ? 'default' : 'primary'"
+      <div class="action-section">
+        <button
+          class="add-trip-btn"
+          :class="{ 'added': isAdded }"
           @click="handleAddTrip"
         >
-          {{ isAdded ? '已加入，去查看' : '加入我的行程' }}
-        </PaperButton>
-      </div>
-
-      <!-- 路线时间轴 -->
-      <van-cell-group inset title="路线详情">
-        <van-steps direction="vertical" :active="routeData.spots.length">
-          <van-step v-for="(spot, index) in routeData.spots" :key="index">
-            <template #inactive-icon>
-              <div class="step-num">{{ String(index + 1).padStart(2, '0') }}</div>
-            </template>
-            <van-cell
-              :title="spot.title"
-              :label="spot.desc"
-              is-link
-              @click="goTo(`/spot/${spot.id}`)"
-            />
-          </van-step>
-        </van-steps>
-      </van-cell-group>
-
-      <!-- 路线价值 -->
-      <van-notice-bar
-        left-icon="info-o"
-        :text="routeData.value"
-        background="#fff7cc"
-        color="#ed6a0c"
-      />
-
-      <!-- 推荐景点 -->
-      <van-cell-group inset title="推荐景点">
-        <van-cell
-          v-for="spot in routeData.recommendSpots"
-          :key="spot.id"
-          :title="spot.title"
-          :label="spot.desc"
-          is-link
-          @click="goTo(`/spot/${spot.id}`)"
-        />
-      </van-cell-group>
-
-      <!-- 操作按钮 -->
-      <div class="action-buttons">
-        <PaperButton block type="primary" @click="goTo(`/spot/${routeData.spots[0].id}`)">
-          按这条路线开始逛
-        </PaperButton>
-        <PaperButton block plain @click="goTo('/search')">
-          查看更多路线
-        </PaperButton>
+          <svg v-if="!isAdded" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+          <span>{{ isAdded ? '已加入行程' : '加入我的行程' }}</span>
+        </button>
       </div>
     </div>
   </div>
@@ -86,7 +119,6 @@ import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { showToast } from 'vant'
 import { tripStore } from '../stores/trip'
-import PaperButton from '../components/PaperButton.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -157,7 +189,22 @@ function handleAddTrip() {
   })
 
   if (success) {
-    showToast('已加入行程')
+    showToast({
+      message: '已加入行程',
+      position: 'top',
+      duration: 2000,
+      className: 'custom-toast',
+      style: {
+        background: '#fff7ed',
+        color: '#2d3e35',
+        fontSize: '16px',
+        fontWeight: '600',
+        padding: '14px 28px',
+        borderRadius: '16px',
+        boxShadow: '0 8px 24px rgba(90, 124, 111, 0.3)',
+        border: '2px solid #5a7c6f'
+      }
+    })
   }
 }
 </script>
@@ -166,20 +213,22 @@ function handleAddTrip() {
 .route-detail {
   background: #f5f0e8;
   min-height: 100vh;
-  padding-bottom: 80px;
+  padding-bottom: 24px;
 }
 
-/* 头部区域 */
-.header-section {
+/* 头图区域 - 中国风渐变 */
+.hero-section {
+  height: 320px;
   position: relative;
-  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 50%, #8fb5a8 100%);
-  padding: 16px;
-  padding-top: 16px;
-  padding-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(90, 124, 111, 0.2);
+  background: linear-gradient(135deg, #d4a574 0%, #c8953d 100%);
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 8px 24px rgba(212, 165, 116, 0.2);
 }
 
 .back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -192,7 +241,6 @@ function handleAddTrip() {
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 2px 8px rgba(198, 123, 92, 0.2);
-  margin-bottom: 12px;
 }
 
 .back-btn:active {
@@ -204,36 +252,26 @@ function handleAddTrip() {
   width: 24px;
   height: 24px;
   color: #2d3e35;
+  stroke-width: 2.5;
 }
 
-.page-title {
-  font-family: 'Noto Serif SC', 'STSong', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: #fff7ed;
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-
-.content {
-  padding: 16px;
-}
-
-/* 纸质感路线概览卡片 */
-.route-summary {
+/* 内容卡片 - 纸质感 */
+.content-card {
   background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
-  border-radius: 26px;
-  padding: 28px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 12px 32px rgba(90, 124, 111, 0.15),
+  border-radius: 32px 32px 0 0;
+  margin: -60px 0 0;
+  padding: 32px 24px;
+  box-shadow: 0 -4px 24px rgba(90, 124, 111, 0.1),
               inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(90, 124, 111, 0.1);
   position: relative;
+  z-index: 1;
+  border: 1px solid rgba(90, 124, 111, 0.1);
+  border-bottom: none;
 }
 
 /* 装饰性边角 */
-.route-summary::before,
-.route-summary::after {
+.content-card::before,
+.content-card::after {
   content: '';
   position: absolute;
   width: 20px;
@@ -242,48 +280,132 @@ function handleAddTrip() {
   opacity: 0.3;
 }
 
-.route-summary::before {
-  top: 12px;
-  left: 12px;
+.content-card::before {
+  top: 16px;
+  left: 16px;
   border-right: none;
   border-bottom: none;
 }
 
-.route-summary::after {
-  bottom: 12px;
-  right: 12px;
+.content-card::after {
+  top: 16px;
+  right: 16px;
   border-left: none;
-  border-top: none;
+  border-bottom: none;
 }
 
-.summary-header {
+/* 标题区域 */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #2d3e35;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.meta-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 20px;
+  margin-bottom: 14px;
 }
 
-.summary-desc {
-  color: #4a5a51;
-  line-height: 1.7;
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7c72;
+  font-size: 14px;
+}
+
+.meta-icon {
+  width: 18px;
+  height: 18px;
+  color: #5a7c6f;
+}
+
+/* 标签行 */
+.rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.hot-tag {
+  background: linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%);
+  color: #c67b5c;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid rgba(198, 123, 92, 0.2);
+}
+
+/* 描述 */
+.description {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(90, 124, 111, 0.15);
+}
+
+.description p {
   margin: 0;
+  color: #4a5a51;
+  line-height: 1.8;
   font-size: 15px;
 }
 
-.action-bar {
-  margin-bottom: 16px;
+/* 区块 */
+.section {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(90, 124, 111, 0.15);
 }
 
-.action-buttons {
+.section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section-title {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3e35;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+}
+
+/* 景点列表 */
+.spots-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 24px;
 }
 
-/* 自定义步骤数字 */
+.spot-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #f5f0e8 0%, #ebe5dc 100%);
+  border: 1px solid rgba(90, 124, 111, 0.1);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.spot-item:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #ebe5dc 0%, #e0d5cc 100%);
+}
+
 .step-num {
-  width: 32px;
-  height: 32px;
+  min-width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 100%);
   color: #fff7ed;
@@ -293,53 +415,153 @@ function handleAddTrip() {
   font-weight: 600;
   font-size: 14px;
   box-shadow: 0 4px 12px rgba(90, 124, 111, 0.25);
+  flex-shrink: 0;
 }
 
-/* 覆盖 Vant 组件样式 */
-:deep(.van-cell-group) {
-  background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
-  border-radius: 26px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  box-shadow: 0 12px 32px rgba(90, 124, 111, 0.15);
+.spot-content {
+  flex: 1;
+}
+
+.spot-content h4 {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3e35;
+  margin: 0 0 6px 0;
+}
+
+.spot-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7c72;
+  line-height: 1.5;
+}
+
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  color: #6b7c72;
+  flex-shrink: 0;
+}
+
+/* 建议 */
+.suggestion {
+  background: linear-gradient(135deg, #f5f0e8 0%, #ebe5dc 100%);
+  padding: 18px 20px;
+  border-radius: 18px;
   border: 1px solid rgba(90, 124, 111, 0.1);
 }
 
-:deep(.van-cell-group__title) {
-  padding: 20px 24px 12px;
-  color: #2d3e35;
-  font-family: 'Noto Serif SC', 'STSong', serif;
-  font-size: 18px;
-  font-weight: 600;
-  background: transparent;
-}
-
-:deep(.van-cell) {
-  background: transparent;
+.suggestion p {
+  margin: 0;
   color: #4a5a51;
+  line-height: 1.8;
+  font-size: 14px;
 }
 
-:deep(.van-cell__title) {
+/* 相关推荐列表 */
+.related-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.related-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #f5f0e8 0%, #ebe5dc 100%);
+  border: 1px solid rgba(90, 124, 111, 0.1);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.related-item:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #ebe5dc 0%, #e0d5cc 100%);
+}
+
+.related-content {
+  flex: 1;
+}
+
+.related-content h4 {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 16px;
+  font-weight: 600;
   color: #2d3e35;
-  font-weight: 500;
+  margin: 0 0 6px 0;
 }
 
-:deep(.van-cell__label) {
-  color: #6b7c72;
-}
-
-:deep(.van-notice-bar) {
-  border-radius: 16px;
-  margin: 16px 0;
-}
-
-:deep(.van-tag) {
-  border-radius: 12px;
-  padding: 6px 14px;
+.related-content p {
+  margin: 0;
   font-size: 13px;
+  color: #6b7c72;
+  line-height: 1.5;
 }
 
-:deep(.van-steps--vertical) {
-  padding: 12px 0;
+/* 加入行程按钮区域 */
+.action-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(90, 124, 111, 0.15);
+}
+
+.add-trip-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 100%);
+  color: #fff7ed;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 8px 20px rgba(90, 124, 111, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.add-trip-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(90, 124, 111, 0.25);
+}
+
+.add-trip-btn.added {
+  background: linear-gradient(135deg, #d4a574 0%, #c8953d 100%);
+  box-shadow: 0 8px 20px rgba(212, 165, 116, 0.3);
+}
+
+.add-trip-btn.added:active {
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.25);
+}
+
+.btn-icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
+}
+
+/* 自定义 Toast 样式 */
+:deep(.custom-toast) {
+  background: rgba(45, 62, 53, 0.95) !important;
+  color: #fff7ed !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+}
+
+:deep(.custom-toast .van-toast__text) {
+  color: #fff7ed !important;
 }
 </style>

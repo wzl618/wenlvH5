@@ -1,6 +1,14 @@
 <template>
   <div class="search-page">
-    <van-nav-bar title="景区搜索" left-arrow @click-left="goBack" fixed placeholder />
+    <!-- 头部区域 -->
+    <div class="header-section">
+      <button class="back-btn" @click="goBack">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      <h1 class="page-title">景区搜索</h1>
+    </div>
 
     <div class="content">
       <!-- 搜索框 - 优化版 -->
@@ -192,11 +200,36 @@ function goTo(path) {
 }
 
 function handleSearch() {
-  // 搜索逻辑已在 computed 中处理
+  // 当用户输入搜索内容时，自动切换到结果最多的tab
+  const query = searchQuery.value.trim().toLowerCase()
+  if (!query) return
+
+  // 搜索所有类型的内容
+  const allResults = searchCatalog.filter(item => {
+    const searchable = [item.title, item.meta, item.desc, ...item.terms].join(' ').toLowerCase()
+    return searchable.includes(query)
+  })
+
+  if (allResults.length === 0) return
+
+  // 统计各类型的结果数量
+  const spotCount = allResults.filter(item => item.kind === 'spot').length
+  const routeCount = allResults.filter(item => item.kind === 'route').length
+  const foodCount = allResults.filter(item => item.kind === 'food').length
+
+  // 自动切换到结果最多的tab
+  if (spotCount > 0 && spotCount >= routeCount && spotCount >= foodCount) {
+    activeFilter.value = 'spot'
+  } else if (routeCount > 0 && routeCount >= spotCount && routeCount >= foodCount) {
+    activeFilter.value = 'route'
+  } else if (foodCount > 0) {
+    activeFilter.value = 'food'
+  }
 }
 
 function searchTag(tag) {
   searchQuery.value = tag
+  handleSearch()
 }
 
 function getKindLabel(kind) {
@@ -237,9 +270,55 @@ onMounted(() => {
 <style scoped>
 .search-page {
   min-height: 100vh;
-  background: var(--paper-white);
+  background: #f5f0e8;
   padding-bottom: 60px;
   position: relative;
+}
+
+/* 头部区域 */
+.header-section {
+  position: relative;
+  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 50%, #8fb5a8 100%);
+  padding: 16px;
+  padding-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(90, 124, 111, 0.2);
+}
+
+.back-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 247, 237, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid #c67b5c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(198, 123, 92, 0.2);
+  margin-bottom: 12px;
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 247, 237, 1);
+}
+
+.back-btn .icon {
+  width: 24px;
+  height: 24px;
+  color: #2d3e35;
+  stroke-width: 2.5;
+}
+
+.page-title {
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff7ed;
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
 .content {

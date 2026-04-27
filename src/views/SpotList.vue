@@ -1,5 +1,5 @@
 <template>
-  <div class="food-list">
+  <div class="spot-list">
     <!-- 头部区域 -->
     <div class="header-section">
       <button class="back-btn" @click="goBack">
@@ -7,91 +7,104 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
-      <h1 class="page-title">当地美食</h1>
+      <h1 class="page-title">热门景点</h1>
     </div>
 
     <div class="content">
-      <!-- 美食推荐策略 - 优化版 -->
+      <!-- 景点推荐策略 -->
       <div class="info-banner">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="info-icon">
           <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
         </svg>
-        <p>优先推荐路线结束点附近、口碑稳定的本地菜，让导览体验更完整。</p>
+        <p>优先推荐热搜前列的经典点位，适合首次来访的游客。</p>
       </div>
 
-      <!-- 美食分类标签 -->
+      <!-- 景点分类标签 -->
       <div class="category-tabs">
         <div class="category-tab active">
-          <span>全部美食</span>
-          <span class="tab-badge">4</span>
+          <span>全部景点</span>
+          <span class="tab-badge">5</span>
         </div>
       </div>
 
-      <!-- 美食网格 - 优化版 -->
-      <div class="food-grid">
-        <!-- 大卡片 - 招牌推荐 -->
-        <div class="food-card featured cursor-pointer" @click="goTo('/food/food-fish')">
-          <div class="food-image food-img-fish">
-            <div class="featured-badge">招牌推荐</div>
+      <!-- 景点网格 -->
+      <div class="spot-grid">
+        <!-- 大卡片 - 热搜第1 -->
+        <div class="spot-card featured cursor-pointer" @click="goTo('/spot/spot-lake')">
+          <div class="spot-image spot-img-lake">
+            <div class="featured-badge">热搜第1</div>
           </div>
-          <div class="food-content">
-            <div class="food-header">
-              <h3>山溪豆花鱼</h3>
-              <span class="food-price">¥68</span>
+          <div class="spot-content">
+            <div class="spot-header">
+              <h3>半山镜湖</h3>
+              <span class="spot-rating">⭐ 4.8</span>
             </div>
-            <div class="food-tags">
-              <span class="tag">鲜香微辣</span>
-              <span class="tag">2-3人</span>
-              <span class="tag hot">人气最高</span>
+            <div class="spot-tags">
+              <span class="tag">最佳拍照点</span>
+              <span class="tag">湖面倒影</span>
+              <span class="tag hot">热门</span>
             </div>
-            <p class="food-desc">景区周边人气最高的本地招牌，适合游玩结束后补一顿热餐。</p>
+            <p class="spot-desc">湖面平静的时候，倒影最容易出片，也是游客搜索最多的点位。</p>
           </div>
         </div>
 
         <!-- 普通卡片 -->
-        <div class="food-card cursor-pointer" @click="goTo('/food/food-rice')">
-          <div class="food-image food-img-rice">
-            <div class="food-icon">🍚</div>
+        <div class="spot-card cursor-pointer" @click="goTo('/spot/spot-cloud')">
+          <div class="spot-image spot-img-cloud">
+            <div class="spot-icon">🏔️</div>
           </div>
-          <div class="food-content">
-            <h3>石锅笋饭</h3>
-            <div class="food-tags">
-              <span class="tag">本地特色</span>
-              <span class="tag">饱腹感强</span>
+          <div class="spot-content">
+            <h3>云顶观景台</h3>
+            <div class="spot-tags">
+              <span class="tag">全景视野</span>
+              <span class="tag">路线起点</span>
             </div>
-            <p class="food-desc">稳妥的大众口味，适合想吃得踏实的游客。</p>
+            <p class="spot-desc">站上去先看完整景区轮廓，能更快理解后面的游玩顺序。</p>
           </div>
         </div>
 
-        <div class="food-card cursor-pointer" @click="goTo('/food/food-ricewine')">
-          <div class="food-image food-img-dessert">
-            <div class="food-icon">🍶</div>
+        <div class="spot-card cursor-pointer" @click="goTo('/spot/spot-valley')">
+          <div class="spot-image spot-img-valley">
+            <div class="spot-icon">🎭</div>
           </div>
-          <div class="food-content">
-            <h3>云顶米酿</h3>
-            <div class="food-tags">
-              <span class="tag">甜口轻饮</span>
-              <span class="tag">拍照友好</span>
+          <div class="spot-content">
+            <h3>山谷剧场</h3>
+            <div class="spot-tags">
+              <span class="tag">演出活动</span>
+              <span class="tag">音乐表演</span>
             </div>
-            <p class="food-desc">适合拍照后短暂停留，轻度消费。</p>
+            <p class="spot-desc">热门路线的尾段重点，适合看演出、休息和结束当天游玩。</p>
           </div>
         </div>
 
-        <div class="food-card cursor-pointer" @click="goTo('/food/food-inn')">
-          <div class="food-image food-img-inn">
-            <div class="food-icon">🏠</div>
+        <div class="spot-card cursor-pointer" @click="goTo('/spot/spot-corridor')">
+          <div class="spot-image spot-img-corridor">
+            <div class="spot-icon">🌿</div>
           </div>
-          <div class="food-content">
-            <h3>镜湖边小馆</h3>
-            <div class="food-tags">
-              <span class="tag">步行可达</span>
-              <span class="tag">景观餐叙</span>
+          <div class="spot-content">
+            <h3>林间长廊</h3>
+            <div class="spot-tags">
+              <span class="tag">林荫步道</span>
+              <span class="tag">轻松漫步</span>
             </div>
-            <p class="food-desc">看完镜湖后就近用餐，轻松衔接。</p>
+            <p class="spot-desc">树影和步道的节奏很舒服，适合在热门景点之间做一段缓冲。</p>
+          </div>
+        </div>
+
+        <div class="spot-card cursor-pointer" @click="goTo('/spot/spot-meadow')">
+          <div class="spot-image spot-img-meadow">
+            <div class="spot-icon">🌸</div>
+          </div>
+          <div class="spot-content">
+            <h3>花谷草坪</h3>
+            <div class="spot-tags">
+              <span class="tag">花海美景</span>
+              <span class="tag">休息放松</span>
+            </div>
+            <p class="spot-desc">适合在热门路线尾段停下休息，也适合拍一些更轻松的氛围照片。</p>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -100,11 +113,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { searchCatalog } from '../data/catalog'
-import PaperButton from '../components/PaperButton.vue'
 
 const router = useRouter()
 const route = useRoute()
-const active = ref(3)
 const searchQuery = ref('')
 
 // 从路由参数获取搜索关键词
@@ -114,14 +125,14 @@ onMounted(() => {
   }
 })
 
-// 过滤美食列表
-const foods = computed(() => {
+// 过滤景点列表
+const spots = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
-  const allFoods = searchCatalog.filter(item => item.kind === 'food')
+  const allSpots = searchCatalog.filter(item => item.kind === 'spot')
 
-  if (!query) return allFoods
+  if (!query) return allSpots
 
-  return allFoods.filter(item => {
+  return allSpots.filter(item => {
     const searchable = [item.title, item.meta, item.desc, ...item.terms].join(' ').toLowerCase()
     return searchable.includes(query)
   })
@@ -137,7 +148,7 @@ function goTo(path) {
 </script>
 
 <style scoped>
-.food-list {
+.spot-list {
   padding-bottom: 16px;
   background: #f5f0e8;
   min-height: 100vh;
@@ -259,16 +270,16 @@ function goTo(path) {
   font-size: 12px;
 }
 
-/* 美食网格 */
-.food-grid {
+/* 景点网格 */
+.spot-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
 
-/* 美食卡片 - 纸质感 */
-.food-card {
+/* 景点卡片 - 纸质感 */
+.spot-card {
   background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
   border: 1px solid rgba(90, 124, 111, 0.1);
   border-radius: 26px;
@@ -279,17 +290,17 @@ function goTo(path) {
   position: relative;
 }
 
-.food-card:active {
+.spot-card:active {
   transform: scale(0.98);
 }
 
-.food-card.featured {
+.spot-card.featured {
   grid-column: 1 / -1;
 }
 
 /* 装饰性边角 - 仅特色卡片 */
-.food-card.featured::before,
-.food-card.featured::after {
+.spot-card.featured::before,
+.spot-card.featured::after {
   content: '';
   position: absolute;
   width: 16px;
@@ -299,22 +310,22 @@ function goTo(path) {
   z-index: 1;
 }
 
-.food-card.featured::before {
+.spot-card.featured::before {
   top: 10px;
   left: 10px;
   border-right: none;
   border-bottom: none;
 }
 
-.food-card.featured::after {
+.spot-card.featured::after {
   bottom: 10px;
   right: 10px;
   border-left: none;
   border-top: none;
 }
 
-/* 美食图片 */
-.food-image {
+/* 景点图片 */
+.spot-image {
   position: relative;
   height: 140px;
   display: flex;
@@ -323,24 +334,28 @@ function goTo(path) {
   overflow: hidden;
 }
 
-.food-card.featured .food-image {
+.spot-card.featured .spot-image {
   height: 180px;
 }
 
-.food-img-fish {
-  background: linear-gradient(135deg, #c67b5c 0%, #b86f4d 100%);
+.spot-img-lake {
+  background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
 }
 
-.food-img-rice {
-  background: linear-gradient(135deg, #d4a574 0%, #c8953d 100%);
-}
-
-.food-img-dessert {
+.spot-img-cloud {
   background: linear-gradient(135deg, #8fb5a8 0%, #7a9d8f 100%);
 }
 
-.food-img-inn {
+.spot-img-valley {
+  background: linear-gradient(135deg, #d4a574 0%, #c8953d 100%);
+}
+
+.spot-img-corridor {
   background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 100%);
+}
+
+.spot-img-meadow {
+  background: linear-gradient(135deg, #c67b5c 0%, #b86f4d 100%);
 }
 
 .featured-badge {
@@ -358,24 +373,24 @@ function goTo(path) {
   border: 1px solid rgba(198, 123, 92, 0.2);
 }
 
-.food-icon {
+.spot-icon {
   font-size: 48px;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
 }
 
-/* 美食内容 */
-.food-content {
+/* 景点内容 */
+.spot-content {
   padding: 18px;
 }
 
-.food-header {
+.spot-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.food-content h3 {
+.spot-content h3 {
   font-family: 'Noto Serif SC', 'STSong', serif;
   font-size: 17px;
   font-weight: 600;
@@ -384,13 +399,13 @@ function goTo(path) {
   letter-spacing: 0.5px;
 }
 
-.food-price {
-  font-size: 16px;
-  font-weight: 700;
-  color: #c67b5c;
+.spot-rating {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d4a574;
 }
 
-.food-tags {
+.spot-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -413,33 +428,10 @@ function goTo(path) {
   border-color: #c67b5c;
 }
 
-.food-desc {
+.spot-desc {
   margin: 0;
   font-size: 14px;
   color: #6b7c72;
   line-height: 1.6;
-}
-
-/* 操作按钮 */
-.action-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-/* 覆盖 Vant 组件样式 */
-:deep(.van-tabbar) {
-  background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
-  border-top: 1px solid rgba(90, 124, 111, 0.1);
-  box-shadow: 0 -4px 16px rgba(90, 124, 111, 0.15);
-}
-
-:deep(.van-tabbar-item__text) {
-  font-size: 12px;
-}
-
-:deep(.van-icon) {
-  color: #6b7c72;
 }
 </style>

@@ -1,6 +1,14 @@
 <template>
   <div class="trip-page">
-    <van-nav-bar title="我的行程" left-arrow @click-left="goBack" fixed placeholder />
+    <!-- 自定义头部 -->
+    <div class="header-section">
+      <div class="back-btn" @click="goBack">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="page-title">我的行程</h1>
+    </div>
 
     <div class="content">
       <!-- 行程概览 -->
@@ -15,9 +23,12 @@
       </div>
 
       <van-empty v-if="totalItems === 0" description="还没有收藏内容" class="empty-state">
-        <PaperButton type="primary" @click="goTo('/home')">
-          去首页添加
-        </PaperButton>
+        <button class="add-btn" @click="goTo('/routes')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <span>去添加路线</span>
+        </button>
       </van-empty>
 
       <template v-else>
@@ -172,12 +183,12 @@
 
         <!-- 操作按钮 -->
         <div class="action-buttons">
-          <PaperButton block type="primary" @click="goTo('/home')">
-            回首页继续添加
-          </PaperButton>
-          <PaperButton block plain @click="handleClear">
-            清空我的行程
-          </PaperButton>
+          <button class="clear-btn" @click="handleClear">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+            </svg>
+            <span>清空我的行程</span>
+          </button>
         </div>
       </template>
     </div>
@@ -279,6 +290,53 @@ function handleClear() {
   position: relative;
 }
 
+/* 头部区域 */
+.header-section {
+  position: relative;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--jade-green) 0%, var(--mountain-green) 100%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 247, 237, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--cinnabar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(198, 123, 92, 0.2);
+  flex-shrink: 0;
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+}
+
+.back-btn .icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-primary);
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  font-family: var(--font-serif);
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  margin-right: 44px; /* 平衡返回按钮的宽度 */
+}
+
 .content {
   padding: var(--space-md);
   position: relative;
@@ -347,6 +405,37 @@ function handleClear() {
 
 .empty-state {
   padding: var(--space-2xl) 0;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #5a7c6f 0%, #7a9d8f 100%);
+  color: #fff7ed;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 8px 20px rgba(90, 124, 111, 0.3);
+  letter-spacing: 0.5px;
+  margin-top: 16px;
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(90, 124, 111, 0.25);
+}
+
+.add-btn .btn-icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
 }
 
 /* 设置卡片 - 宣纸质感 */
@@ -596,5 +685,37 @@ function handleClear() {
   flex-direction: column;
   gap: var(--space-md);
   margin-top: var(--space-xl);
+}
+
+.clear-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #fff7ed 0%, #fef3e2 100%);
+  color: #c67b5c;
+  border: 2px solid #c67b5c;
+  border-radius: 20px;
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(198, 123, 92, 0.2);
+  letter-spacing: 0.5px;
+}
+
+.clear-btn:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%);
+  box-shadow: 0 2px 8px rgba(198, 123, 92, 0.15);
+}
+
+.btn-icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
 }
 </style>

@@ -27,30 +27,56 @@
 
     <!-- 快捷入口 - 四象布局 -->
     <div class="quick-actions">
-      <div class="action-item cursor-pointer" @click="goTo('/search')" style="animation-delay: 0.1s">
+      <div class="action-item cursor-pointer" @click="goTo('/spots')" style="animation-delay: 0.1s">
         <div class="action-icon jade">
-          <van-icon name="location-o" size="24" color="var(--jade-green)" />
+          <svg class="icon-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 8L18 18L12 24L18 28L24 38L30 28L36 24L30 18L24 8Z" fill="var(--jade-green)" opacity="0.2"/>
+            <path d="M24 8L30 18M24 8L18 18M24 8V4M30 18L36 24M18 18L12 24M36 24L30 28M12 24L18 28M30 28L24 38M18 28L24 38M24 38V42" stroke="var(--jade-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="3" fill="var(--jade-green)"/>
+          </svg>
         </div>
         <span class="action-label">景点</span>
         <div class="action-brush"></div>
       </div>
-      <div class="action-item cursor-pointer" @click="goTo('/search')" style="animation-delay: 0.2s">
+      <div class="action-item cursor-pointer" @click="goTo('/routes')" style="animation-delay: 0.2s">
         <div class="action-icon gold">
-          <van-icon name="guide-o" size="24" color="var(--gold)" />
+          <svg class="icon-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="14" stroke="var(--gold)" stroke-width="2"/>
+            <circle cx="24" cy="24" r="10" stroke="var(--gold)" stroke-width="1.5" opacity="0.4"/>
+            <path d="M24 10V14M24 34V38M38 24H34M14 24H10" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M33.5 14.5L30.5 17.5M17.5 30.5L14.5 33.5M33.5 33.5L30.5 30.5M17.5 17.5L14.5 14.5" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="24" cy="24" r="2" fill="var(--gold)"/>
+            <path d="M24 18L25 22L24 26" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
         </div>
         <span class="action-label">路线</span>
         <div class="action-brush"></div>
       </div>
       <div class="action-item cursor-pointer" @click="goTo('/food')" style="animation-delay: 0.3s">
         <div class="action-icon cinnabar">
-          <van-icon name="shop-o" size="24" color="var(--cinnabar)" />
+          <svg class="icon-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="24" cy="28" rx="14" ry="12" fill="var(--cinnabar)" opacity="0.15"/>
+            <path d="M10 28C10 28 12 20 24 20C36 20 38 28 38 28" stroke="var(--cinnabar)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 28C10 28 10 34 24 34C38 34 38 28 38 28" stroke="var(--cinnabar)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 24C16 24 18 22 20 22M24 21V22M28 22C28 22 30 22 32 24" stroke="var(--cinnabar)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <rect x="20" y="10" width="1.5" height="12" rx="0.75" fill="var(--cinnabar)"/>
+            <rect x="27" y="10" width="1.5" height="12" rx="0.75" fill="var(--cinnabar)"/>
+            <path d="M18 14H22M26 14H30" stroke="var(--cinnabar)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </div>
         <span class="action-label">美食</span>
         <div class="action-brush"></div>
       </div>
       <div class="action-item cursor-pointer" @click="goTo('/trip')" style="animation-delay: 0.4s">
         <div class="action-icon sky">
-          <van-icon name="orders-o" size="24" color="var(--sky-blue)" />
+          <svg class="icon-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="14" width="24" height="20" rx="2" fill="var(--sky-blue)" opacity="0.15"/>
+            <path d="M14 12C14 10.8954 14.8954 10 16 10H32C33.1046 10 34 10.8954 34 12V36C34 37.1046 33.1046 38 32 38H16C14.8954 38 14 37.1046 14 36V12Z" stroke="var(--sky-blue)" stroke-width="2"/>
+            <path d="M18 16H30M18 21H30M18 26H30M18 31H26" stroke="var(--sky-blue)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="29" cy="31" r="1.5" fill="var(--sky-blue)"/>
+            <path d="M10 18L14 16M10 24L14 24M10 30L14 32" stroke="var(--sky-blue)" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <path d="M38 18L34 16M38 24L34 24M38 30L34 32" stroke="var(--sky-blue)" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          </svg>
         </div>
         <span class="action-label">行程</span>
         <div class="action-brush"></div>
@@ -64,7 +90,7 @@
           <span class="title-decoration">热门</span>
           景点
         </h2>
-        <span class="section-more cursor-pointer" @click="goTo('/search')">
+        <span class="section-more cursor-pointer" @click="goTo('/spots')">
           更多
           <van-icon name="arrow" size="14" />
         </span>
@@ -105,7 +131,7 @@
           <span class="title-decoration">推荐</span>
           路线
         </h2>
-        <span class="section-more cursor-pointer" @click="goTo('/search')">
+        <span class="section-more cursor-pointer" @click="goTo('/routes')">
           更多
           <van-icon name="arrow" size="14" />
         </span>
@@ -171,10 +197,10 @@
 
     <!-- 底部导航 - 中国风 -->
     <van-tabbar route active-color="var(--cinnabar)" inactive-color="var(--text-tertiary)">
-      <van-tabbar-item to="/home" icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item to="/trip" icon="orders-o">行程</van-tabbar-item>
-      <van-tabbar-item to="/search" icon="search">搜索</van-tabbar-item>
-      <van-tabbar-item to="/food" icon="shop-o">美食</van-tabbar-item>
+      <van-tabbar-item to="/home" icon="home-o"></van-tabbar-item>
+      <van-tabbar-item to="/trip" icon="orders-o"></van-tabbar-item>
+      <van-tabbar-item to="/search" icon="search"></van-tabbar-item>
+      <van-tabbar-item to="/food" icon="shop-o"></van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -515,6 +541,16 @@ function goTo(path) {
   color: var(--text-primary);
   font-weight: 500;
   letter-spacing: 0.05em;
+}
+
+.icon-svg {
+  width: 32px;
+  height: 32px;
+  transition: transform var(--transition-base);
+}
+
+.action-item:active .icon-svg {
+  transform: scale(0.9);
 }
 
 /* 区块 */
